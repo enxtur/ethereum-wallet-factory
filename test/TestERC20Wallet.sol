@@ -46,4 +46,15 @@ contract TestERC20Wallet {
     assert(coin.balanceOf(address(this)) == 10);
   }
 
+  // function testSweepEth() public {
+  //   ERC20Wallet wallet = new ERC20Wallet();
+  //   wallet.initialize(address(this));
+
+  //   payable(address(wallet)).transfer(0);
+  //   assert(address(wallet).balance == 0);
+
+  //   wallet.sweepEth();
+  //   assert(address(wallet).balance == 0);
+  // }
+
 }

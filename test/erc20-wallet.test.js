@@ -38,4 +38,24 @@ contract("ERC20Wallet", function (accounts) {
     const newAccountBalance = (await ERC20Instance.balanceOf(accounts[0])).toNumber();
     assert.equal(newAccountBalance, 10, "accounts[0] balance should be 10");
   });
+  it("should sweep eth", async function () {
+    const instance = await ERC20Wallet.deployed();
+    const result = await web3.eth.sendTransaction({ from: accounts[0], to: instance.address, value: 1 });
+
+    let walletBalance = await web3.eth.getBalance(instance.address);
+    assert.equal(walletBalance, 1, "Wallet balance should be 1");
+
+    const sweepResult = await instance.sweepEth();
+    // console.log('sweepResult', JSON.stringify(sweepResult, null, 2));
+    // console.log('accounts[0]', accounts[0]);
+    assert.equal(sweepResult.receipt.status, true, "Sweep should be successful");
+
+    // asserting event
+    assert.equal(sweepResult.logs[0].event, "WalletSwept", "SweepEth event should be emitted");
+    assert.equal(sweepResult.logs[0].args.amount.toNumber(), 1, "SweepEth event amount should be 1");
+    assert.equal(sweepResult.logs[0].args.to, accounts[0], "Sweep to accounts[0]");
+
+    walletBalance = await web3.eth.getBalance(instance.address);
+    assert.equal(walletBalance, 0, "Wallet balance should be 0");
+  });
 });

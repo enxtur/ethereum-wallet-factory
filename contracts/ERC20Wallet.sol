@@ -8,6 +8,7 @@ contract ERC20Wallet {
 
   address private _owner;
 
+  event EthDeposited(address indexed from, uint256 amount);
   event WalletSwept(address indexed token, address indexed to, uint256 amount);
 
   function initialize(address __owner) public {
@@ -16,8 +17,21 @@ contract ERC20Wallet {
     _owner = __owner;
   }
 
+  fallback() external payable {
+    // emit EthDeposited(msg.sender, msg.value);
+  }
+
+  receive() external payable {
+    emit EthDeposited(msg.sender, msg.value);
+  }
+
   function owner() public view returns (address) {
     return _owner;
+  }
+
+  modifier onlyOwner() {
+    require(msg.sender == _owner, "ERC20Wallet: caller is not the owner");
+    _;
   }
 
   function sweep(address tokenAddress) public onlyOwner {
@@ -27,8 +41,9 @@ contract ERC20Wallet {
     emit WalletSwept(tokenAddress, owner(), balance);
   }
 
-  modifier onlyOwner() {
-    require(msg.sender == _owner, "ERC20Wallet: caller is not the owner");
-    _;
+  function sweepEth() public onlyOwner {
+    uint256 balance = address(this).balance;
+    payable(owner()).transfer(balance);
+    emit WalletSwept(address(0), owner(), balance);
   }
 }

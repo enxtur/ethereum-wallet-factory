@@ -7,20 +7,20 @@ import "./ERC20Wallet.sol";
 
 contract WalletFactory is Ownable {
 
-  address public libraryAddress;
-  address[] private _wallets;
-  uint8 public constant ONE_TIME_MAX_WALLETS = 60;
+  address payable public libraryAddress;
+  address payable[] private _wallets;
+  uint8 public constant ONE_TIME_MAX_WALLETS = 50;
 
   constructor() {
-    libraryAddress = address(new ERC20Wallet());
+    libraryAddress = payable(address(new ERC20Wallet()));
   }
 
   function createWallets(uint8 count) public onlyOwner {
     require(count > 0, "Count must be greater than 0");
-    require(count <= ONE_TIME_MAX_WALLETS, "Count must be less than or equal to 60");
+    require(count <= ONE_TIME_MAX_WALLETS, "Count must be less than or equal to 50");
     require(libraryAddress != address(0), "Library address not set");
     for (uint8 i = 0; i < count; i++) {
-      address clone = Clones.clone(libraryAddress);
+      address payable clone = payable(Clones.clone(libraryAddress));
       ERC20Wallet(clone).initialize(owner());
       _wallets.push(clone);
     }

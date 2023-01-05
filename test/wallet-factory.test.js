@@ -35,7 +35,7 @@ contract("WalletFactory", function (accounts) {
   });
   it("should create wallets with max count", async function () {
     const instance = await WalletFactory.deployed();
-    await instance.createWallets(60);
+    await instance.createWallets(50);
     const wallet0 = await instance.wallet(0);
     assert.isTrue(web3.utils.isAddress(wallet0), "wallet0 should be an address");
     const wallet9 = await instance.wallet(59);
