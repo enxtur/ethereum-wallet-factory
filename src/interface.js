@@ -27,11 +27,18 @@ exports.walletCount = async () => {
   return count.toNumber();
 }
 
-exports.createWallets = async (count, account) => {
+exports.createWallets = async (count, account, estimateGasFee) => {
   const WalletFactoryContract = makeContract(WalletFactoryArtifact);
   const instance = await WalletFactoryContract.deployed();
-  const res = await instance.createWallets(count, {
-    from: account,
-  });
-  return res;
+  if (estimateGasFee){
+    const res = await instance.createWallets.estimateGas(count, {
+      from: account,
+    });
+    return res;
+  } else {
+    const res = await instance.createWallets(count, {
+      from: account,
+    });
+    return res;
+  }
 }

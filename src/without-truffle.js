@@ -6,10 +6,10 @@ const web3 = new Web3(provider);
 
 async function start() {
   const accounts = await web3.eth.getAccounts();
-
+  const estimateGasFee = true;
   if (true) {
     const count = 100;
-    const res = await createWallets(count, accounts[0]);
+    const res = await createWallets(count, accounts[0], estimateGasFee);
     console.log(res);
   }
 
