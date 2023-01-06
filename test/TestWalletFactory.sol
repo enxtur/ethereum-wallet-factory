@@ -30,6 +30,12 @@ contract TestWalletFactory {
     // assert(factory.wallet(59) != address(0));
   }
 
+  function testWalletCount() public {
+    WalletFactory factory = new WalletFactory();
+    factory.createWallets(10);
+    assert(factory.walletCount() == 10);
+  }
+
   function testWallet() public {
     WalletFactory factory = new WalletFactory();
     factory.createWallets(1);

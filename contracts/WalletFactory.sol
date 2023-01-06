@@ -9,21 +9,25 @@ contract WalletFactory is Ownable {
 
   address payable public libraryAddress;
   address payable[] private _wallets;
-  uint8 public constant ONE_TIME_MAX_WALLETS = 50;
+  uint16 public constant ONE_TIME_MAX_WALLETS = 10000;
 
   constructor() {
     libraryAddress = payable(address(new ERC20Wallet()));
   }
 
-  function createWallets(uint8 count) public onlyOwner {
+  function createWallets(uint16 count) public onlyOwner {
     require(count > 0, "Count must be greater than 0");
     require(count <= ONE_TIME_MAX_WALLETS, "Count must be less than or equal to 50");
     require(libraryAddress != address(0), "Library address not set");
-    for (uint8 i = 0; i < count; i++) {
+    for (uint16 i = 0; i < count; i++) {
       address payable clone = payable(Clones.clone(libraryAddress));
       ERC20Wallet(clone).initialize(owner());
       _wallets.push(clone);
     }
+  }
+
+  function walletCount() public view returns (uint256) {
+    return _wallets.length;
   }
 
   function wallet(uint256 index) public view returns (address) {

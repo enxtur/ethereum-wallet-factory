@@ -14,6 +14,15 @@ contract("WalletFactory", function (accounts) {
     const owner = await instance.owner();
     assert.equal(owner, accounts[0], "Owner should be accounts[0]");
   });
+  it("should return wallet count", async function () {
+    const instance = await WalletFactory.deployed();
+    const count = (await instance.walletCount()).toNumber();
+    assert.equal(count, 0, "walletCount should be 0");
+
+    await instance.createWallets(10);
+    const count2 = (await instance.walletCount()).toNumber();
+    assert.equal(count2, 10, "walletCount should be 10");
+  });
   it("should revert with Index out of bounds", async function () {
     const instance = await WalletFactory.deployed();
     await instance.createWallets(1);

@@ -10,3 +10,25 @@ npm install
 ```sh
 npm test
 ```
+
+
+### Deploying
+
+```sh
+truffle dashboard
+```
+
+```sh
+truffle migrate --network dashboard
+```
+
+### Interact to the contract
+#### with truffle web3
+
+```sh
+truffle exec src/with-truffle.js --network dashboard
+```
+#### without truffle
+```sh
+node src/without-truffle.js
+```
