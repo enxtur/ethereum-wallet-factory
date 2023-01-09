@@ -2,10 +2,10 @@ const { createWallets, wallet, walletCount } = require('./interface');
 
 module.exports = async (callback) => {
   const accounts = await web3.eth.getAccounts();
-  const estimateGasFee = true
+  const estimateGasFee = false
 
-  if (true) {
-    const count = 10;
+  if (false) {
+    const count = 100;
     const res = await createWallets(count, accounts[0], estimateGasFee);
     console.log(res);
   }

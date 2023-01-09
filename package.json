@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "truffle test"
+    "test": "truffle test",
+    "with:truffle": "truffle exec src/with-truffle.js --network dashboard",
+    "without:truffle": "node src/without-truffle.js"
   },
   "keywords": [],
   "author": "",
