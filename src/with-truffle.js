@@ -10,12 +10,12 @@ module.exports = async (callback) => {
     console.log(res);
   }
 
-  if (false) {
+  if (true) {
     const address = await wallet(0);
     console.log('wallet 0', address);
   }
 
-  if (false) {
+  if (true) {
     const count = await walletCount();
     console.log('wallet count', count);
   }
